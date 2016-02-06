@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+myname="Tom de Groot"
+echo "Hello world, my name is ${myname}"

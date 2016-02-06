@@ -1,0 +1,38 @@
+#! /bin/bash
+#
+# Test script for making a menu
+clear
+echo "
+Please Select: 
+1. Display System Information
+2. Display Disk Space
+3. Display Home Space Utilization
+0. Quit
+"
+read -p "Enter selection[0-3] > "
+
+if [[ $REPLY =~ ^[^0-3]$ ]]; then
+	echo "Invalid choice" >&2
+	exit 1
+fi
+
+(( $REPLY == 0 )) && echo "Program terminated" && exit;
+
+(( $REPLY == 1 )) && echo "Hostname: $HOSTNAME" && uptime && exit 
+
+(( $REPLY == 2 )) && df -h && exit
+
+if (( $REPLY == 3 )); then
+	notify(){
+		echo "Home Space Utilization ($1)"
+	}
+
+	if (( $(id -u) == 0 )); then
+		notify "All Users"
+		du -sh /home/*
+	else
+		notify "$USER"
+		du -sh $HOME
+	fi
+	exit
+fi

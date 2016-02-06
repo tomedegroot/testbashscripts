@@ -1,0 +1,10 @@
+#! /bin/bash
+#
+# Test or read command with time out and silent mode
+# Remember, if reads the output of a command
+if read -t 10 -s -p "Enter a secret passphrase -> " secret_pass; then
+	echo -e "\n The secret passphrase is $secret_pass"
+else
+	echo -e "\n Timed out!" >&2
+	exit 1
+fi

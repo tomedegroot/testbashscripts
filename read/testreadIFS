@@ -1,0 +1,27 @@
+#! /bin/bash
+#
+# Change the IFS to read input from a file (/etc/passwd)
+#
+FILE=/etc/passwd
+
+read -p "Enter a username > " user_name
+
+file_info=$(grep "^${user_name}:" $FILE)
+
+# test -n means string length is non-zero
+if [ -n "$file_info" ]; then
+	# read <<< lets you get the input from a file. <<< is a here string and let you get the input from a file
+	IFS=":" read user pw uid gid name home_dir shell <<< "$file_info"
+	
+	cat <<- _EOF_
+	User: $user
+	Uid: $uid
+	Gid: $gid
+	Name: $name
+	Home: $home_dir
+	Shell: $shell
+	_EOF_
+else
+	echo "$user_name not found in $FILE" >&2
+	exit 1
+fi
