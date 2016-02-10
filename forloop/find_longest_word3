@@ -1,0 +1,21 @@
+#! /bin/bash
+
+# find the longest word in a list of files
+
+# when 'in words' is omitted in for, for defaults to the positional parameters
+
+for filename; do
+	max_len=0
+	max_word=
+	if [[ -r $filename ]]; then
+		for word in $(strings $filename); do
+			len=$(echo $filename | wc -c)
+			if (( len > 0 )); then
+				max_len=$len
+				max_word=$word
+			fi
+		done
+	fi
+	echo "$filename: '$max_word' ($max_len characters)"
+done
+
