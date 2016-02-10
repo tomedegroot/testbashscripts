@@ -5,9 +5,9 @@
 # when 'in words' is omitted in for, for defaults to the positional parameters
 
 for filename; do
-	max_len=0
-	max_word=
 	if [[ -r $filename ]]; then
+		max_len=0
+		max_word=
 		for word in $(strings $filename); do
 			len=$(echo $filename | wc -c)
 			if (( len > 0 )); then
@@ -15,7 +15,9 @@ for filename; do
 				max_word=$word
 			fi
 		done
+		echo "$filename: '$max_word' ($max_len characters)"
+	else
+		echo "'$filename' is not a readable file"
 	fi
-	echo "$filename: '$max_word' ($max_len characters)"
 done
 
